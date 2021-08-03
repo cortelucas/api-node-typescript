@@ -18,14 +18,18 @@ const createNewLine = (nome, email) => {
 
 const table = document.querySelector('[data-tabela]');
 
-const http =  new XMLHttpRequest();
+const listClients = () => {
 
-http.open('GET', 'http://localhost:3000/profile');
-http.send();
-
-http.onload = () => {
-  const data = JSON.parse(http.response);
-  data.forEach( cliente => {
-    table.appendChild(createNewLine(cliente.nome, cliente.email));
+  return fetch('http://localhost:3000/profile')
+  .then (res => {
+    return res.json();
   });
+
 }
+
+listClients()
+  .then(data => {
+      data.forEach( cliente => {
+        table.appendChild(createNewLine(cliente.nome, cliente.email));
+      });
+  });
